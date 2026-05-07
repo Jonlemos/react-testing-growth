@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Case Técnico: Portal de Ofertas e Contratação (PJ)
 
-## Getting Started
+Este projeto implementa um módulo web voltado para o aumento de conversão (_growth_) de clientes PJ através de ofertas personalizadas. A solução foca em resiliência de dados, segurança server-side e arquitetura escalável.
 
-First, run the development server:
+## 🏗 Desenho da Solução (Arquitetura)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```mermaid
+graph TD
+    User([Usuário]) --> Proxy[Next.js Proxy /proxy.ts]
+    Proxy --> Auth{JWT Check / Refresh}
+    Auth --> App[Next.js App Router]
+
+    subgraph "Camadas do Front-end"
+        App --> Pages[Páginas /app]
+        Pages --> Feature[Features /feature]
+
+        subgraph "Módulo de Negócio"
+            Feature --> Components[Componentes UI]
+            Feature --> Hooks[Custom Hooks / React Query]
+            Hooks --> API[Services / API / Fetch]
+            Hooks --> Store[Zustand Store / Persistence]
+        end
+    end
+
+    API --> BFF[API Routes /api/portal]
+    Store --> Persistence[(LocalStorage)]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Decisões de Arquitetura
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **React 19 + Next.js 16 (App Router)**: Escolha baseada em performance (Server Components) e na robustez do novo padrão de Proxy para segurança.
+- **Next.js 16 Proxy Pattern**: Autenticação transparente via servidor. O `proxy.ts` gerencia o ciclo de vida do JWT (refresh automático) sem expor lógica de renovação ao cliente.
+- **Zustand + Persistência**: Gerenciamento de rascunhos de simulação. Implementado via _Factory Pattern_ para suportar múltiplos rascunhos isolados por oferta e por usuário.
+- **TanStack Query v5**: Gestão eficiente de _Server State_, cache e sincronização.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠 Funcionalidades Entregues
 
-## Learn More
+1.  **Lista de Ofertas**: Grid de cards com filtros por categoria e tratamento de estados (Loading, Empty, Error).
+2.  **Detalhe da Oferta**: Visão aprofundada com justificativa personalizada ("Por que esta oferta é para você").
+3.  **Fluxo de Simulação (3 Etapas)**:
+    - **Dados**: Seleção de valores e prazos.
+    - **Revisão**: Verificação de taxas e parcelas.
+    - **Confirmação**: Aceite de termos e geração de protocolo.
+4.  **Resiliência (Retomada)**: Se o usuário sair no meio da simulação, o estado é recuperado automaticamente ao retornar para a mesma oferta e modifica componente pai.
 
-To learn more about Next.js, take a look at the following resources:
+## 🔐 Estratégias de Qualidade
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Refresh Token Transparente**: Implementado no `proxy.ts` garantindo que a sessão seja renovada sem interrupções de UX.
+- **Feature Flags**: Lógica de segmentação (VAREJO, PRIVATE) integrada diretamente na visibilidade de CTAs e acesso a rotas.
+- **Estratégia de Testes**: Foco em testes unitários para Feature Flags e testes de integração para o fluxo de persistência (Simulation Store).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔧 Como Executar
 
-## Deploy on Vercel
+1.  `npm install`
+2.  Configurar `.env.local`: `JWT_SECRET=sua_chave`
+3.  `npm run dev`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+_Este projeto demonstra competências técnicas em arquitetura front-end moderna._

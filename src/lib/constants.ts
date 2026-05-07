@@ -24,7 +24,7 @@ export const MOCK_USERS: Record<string, User & { passwordHash: string }> = {
   },
   'user_corporate': {
     id: 'usr_2',
-    email: 'maria.corp@itau.com.br',
+    email: 'maria.corp@bancodigital.com.br',
     name: 'Maria Santos (Corporate)',
     segment: 'CORPORATE',
     passwordHash: 'senha456',

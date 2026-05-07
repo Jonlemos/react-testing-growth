@@ -9,7 +9,7 @@
      - Scenario: User with correct credentials must receive session cookies.
      - Validation: Status 200 and user object in JSON.
 
-  2. Route Protection Test (Middleware)
+  2. Route Protection Test (Proxy)
      - Scenario: Try to access /api/offers without cookie.
      - Validation: Status 401.
 
