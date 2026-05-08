@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition, useDeferredValue, useEffect, useRef } from "react"
+import { useState, useTransition, useEffect, useRef } from "react"
 import { PackageSearch } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useOffers } from "../hooks/useOffers"
@@ -27,22 +27,16 @@ export const OfferList = () => {
   const [activeRange, setActiveRange] = useState<'todos' | 'small' | 'medium' | 'large'>('todos')
   const [activeSegment, setActiveSegment] = useState<'todos' | 'VAREJO' | 'PRIVATE' | 'CORPORATE'>('todos')
 
-  // useDeferredValue: the grid uses the "delayed" values, allowing the
-  // React to prioritize updating the buttons before re-filtering the list.
-  const deferredCategory = useDeferredValue(activeCategory)
-  const deferredRange = useDeferredValue(activeRange)
-  const deferredSegment = useDeferredValue(activeSegment)
-
   const offers = data?.offers ?? []
   
   const filtered = offers.filter((o) => {
-    const matchCategory = deferredCategory === 'todos' || o.category === deferredCategory
-    const matchSegment = deferredSegment === 'todos' || o.eligibility === deferredSegment
+    const matchCategory = activeCategory === 'todos' || o.category === activeCategory
+    const matchSegment = activeSegment === 'todos' || o.eligibility === activeSegment
     
     let matchRange = true
-    if (deferredRange === 'small') matchRange = o.maxAmount <= 50000
-    if (deferredRange === 'medium') matchRange = o.maxAmount > 50000 && o.maxAmount <= 200000
-    if (deferredRange === 'large') matchRange = o.maxAmount > 200000
+    if (activeRange === 'small') matchRange = o.maxAmount <= 50000
+    if (activeRange === 'medium') matchRange = o.maxAmount > 50000 && o.maxAmount <= 200000
+    if (activeRange === 'large') matchRange = o.maxAmount > 200000
 
     return matchCategory && matchSegment && matchRange
   })
@@ -100,14 +94,15 @@ export const OfferList = () => {
   }
 
   return (
-    <div className="space-y-6">
-
-      {isPending && (
-        <div className="flex items-center gap-2 px-3 py-2 text-[11px] bg-amber-50 border border-amber-100 text-amber-700 rounded-lg animate-pulse">
-          <div className="size-1.5 rounded-full bg-amber-500" />
-          Sistema processando filtros... A resposta pode ser ligeiramente mais lenta.
-        </div>
-      )}
+    <div className="relative space-y-6">
+      {/* Indicador de Transição (React 19): Não desloca o layout */}
+      <div className={cn(
+        "absolute -top-6 right-0 flex items-center gap-2 text-[10px] text-amber-600 font-medium transition-opacity duration-300",
+        isPending ? "opacity-100" : "opacity-0 pointer-events-none"
+      )}>
+        <div className="size-1.5 rounded-full bg-amber-500 animate-pulse" />
+        Atualizando...
+      </div>
 
       <div className="space-y-4">
         <div className="space-y-2">

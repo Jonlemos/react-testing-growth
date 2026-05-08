@@ -29,7 +29,7 @@ graph TD
 ### Decisões de Arquitetura
 
 - **React 19 + Next.js 16 (App Router)**: Escolha baseada em performance (Server Components) e na robustez do novo padrão de Proxy para segurança.
-- **Hooks Modernos (React 19)**: Uso de `useTransition` para filtragem não bloqueante, `useOptimistic` para feedback imediato em contratações e `useDeferredValue` para grids responsivos.
+- **Hooks Modernos (React 19)**: Uso de `useTransition` para filtragem não bloqueante, `useOptimistic` para feedback imediato em contratações.
 - **Next.js 16 Proxy Pattern**: Autenticação transparente via servidor. O `proxy.ts` gerencia o ciclo de vida do JWT (refresh automático) sem expor lógica de renovação ao cliente.
 - **Zustand + Persistência**: Gerenciamento de rascunhos de simulação via _Factory Pattern_, com isolamento por oferta e usuário.
 - **Performance & Code-Splitting**: Implementação de `next/dynamic` para carregamento sob demanda de fluxos complexos (SimulationFlow), reduzindo o bundle inicial.
@@ -41,10 +41,10 @@ A organização segue o padrão de **Feature-Based Architecture**, isolando dom�
 
 - `src/app`: Camada de roteamento, layouts e Server Components (Next.js).
 - `src/feature`: Módulos de negócio (ex: `Offers`, `Auth`). Cada feature contém seus próprios componentes, hooks, services e stores.
-- `src/components`: 
-    - `ui/`: Componentes base (Shadcn UI).
-    - `shared/`: Componentes genéricos reutilizáveis (Loading, Empty states).
-    - `portal/`: Componentes de layout do dashboard.
+- `src/components`:
+  - `ui/`: Componentes base (Shadcn UI).
+  - `shared/`: Componentes genéricos reutilizáveis (Loading, Empty states).
+  - `portal/`: Componentes de layout do dashboard.
 - `src/lib`: Utilitários globais (Analytics, Feature Flags, API Client).
 - `src/test`: Setup global de testes, mocks e factories de dados.
 
@@ -54,9 +54,9 @@ O projeto utiliza uma abordagem de **Design System Adaptável** para garantir co
 
 - **Shadcn UI + Tailwind CSS 4**: Componentes de alta qualidade com controle total sobre o código fonte.
 - **Design Tokens**: Centralizados via variáveis CSS no `globals.css`, permitindo alteração de marca e suporte nativo a Dark Mode.
-- **Componentização**: 
-    - **UI Atoms**: Componentes puros em `src/components/ui`.
-    - **Business Molecules**: Componentes com lógica de negócio dentro de `src/feature/*/components`.
+- **Componentização**:
+  - **UI Atoms**: Componentes puros em `src/components/ui`.
+  - **Business Molecules**: Componentes com lógica de negócio dentro de `src/feature/*/components`.
 - **Checklist de Acessibilidade**: Garantia de navegação por teclado, contraste e suporte a leitores de tela integrado ao desenvolvimento.
 
 ## 🛠 Funcionalidades Entregues

@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { getMockOffer } from '@/test/utils'
 
 // Mock hook data
-vi.mock('@/feature/Offers/hooks/useOffers')
+vi.mock('@/feature/offers/hooks/useOffers')
 vi.mock('@/lib/analytics', () => ({
   Analytics: {
     offerListViewed: vi.fn(),
