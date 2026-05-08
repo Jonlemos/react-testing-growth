@@ -35,6 +35,30 @@ graph TD
 - **Performance & Code-Splitting**: Implementação de `next/dynamic` para carregamento sob demanda de fluxos complexos (SimulationFlow), reduzindo o bundle inicial.
 - **TanStack Query v5**: Gestão eficiente de _Server State_, cache e sincronização.
 
+## 📂 Estrutura do Projeto
+
+A organização segue o padrão de **Feature-Based Architecture**, isolando domínios de negócio para facilitar a manutenção e testes:
+
+- `src/app`: Camada de roteamento, layouts e Server Components (Next.js).
+- `src/feature`: Módulos de negócio (ex: `Offers`, `Auth`). Cada feature contém seus próprios componentes, hooks, services e stores.
+- `src/components`: 
+    - `ui/`: Componentes base (Shadcn UI).
+    - `shared/`: Componentes genéricos reutilizáveis (Loading, Empty states).
+    - `portal/`: Componentes de layout do dashboard.
+- `src/lib`: Utilitários globais (Analytics, Feature Flags, API Client).
+- `src/test`: Setup global de testes, mocks e factories de dados.
+
+## 🎨 Design System & Governança
+
+O projeto utiliza uma abordagem de **Design System Adaptável** para garantir consistência e agilidade:
+
+- **Shadcn UI + Tailwind CSS 4**: Componentes de alta qualidade com controle total sobre o código fonte.
+- **Design Tokens**: Centralizados via variáveis CSS no `globals.css`, permitindo alteração de marca e suporte nativo a Dark Mode.
+- **Componentização**: 
+    - **UI Atoms**: Componentes puros em `src/components/ui`.
+    - **Business Molecules**: Componentes com lógica de negócio dentro de `src/feature/*/components`.
+- **Checklist de Acessibilidade**: Garantia de navegação por teclado, contraste e suporte a leitores de tela integrado ao desenvolvimento.
+
 ## 🛠 Funcionalidades Entregues
 
 1.  **Lista de Ofertas**: Grid de cards com filtros por categoria e tratamento de estados (Loading, Empty, Error).
