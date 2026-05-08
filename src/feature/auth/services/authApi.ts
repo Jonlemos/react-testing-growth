@@ -1,14 +1,14 @@
 import type { LoginCredentials, LoginResponse } from "../types";
 
-// O refresh token é gerenciado de forma transparente pelo proxy.ts (Next.js 16).
-// Quando o accessToken expira, o proxy valida o refreshToken e emite um novo
-// accessToken automaticamente, sem nenhuma lógica extra no cliente.
-// O cliente só precisa tratar o erro { code: 'AUTH_EXPIRED' } quando o
-// refreshToken também estiver expirado — o que significa fim de sessão.
+// The refresh token is managed transparently by proxy.ts (Next.js 16).
+// When the accessToken expires, the proxy validates the refreshToken and issues a new
+// accessToken automatically, with no additional logic in the client.
+// The client only needs to handle the error { code: 'AUTH_EXPIRED' } when the
+// refreshToken is also expired — which means end of session.
 
 async function http<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
   const res = await fetch(input, {
-    credentials: 'include', // garante envio dos cookies httpOnly
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       ...(init?.headers ?? {}),
@@ -18,7 +18,6 @@ async function http<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
 
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    // Lança um erro tipado para que o useAuth possa tratar o fim de sessão
     const err = new Error(body?.error ?? `HTTP error ${res.status}`);
     (err as any).code = body?.code;
     throw err;

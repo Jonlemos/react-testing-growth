@@ -9,14 +9,15 @@ export default function PortalLayout({
 }) {
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      {/* Hidrata a store de feature flags assim que o layout monta */}
       <FeatureFlagsHydrator />
 
-      <PortalSidebar />
+      <div className="hidden md:flex">
+        <PortalSidebar />
+      </div>
 
       <div className="flex flex-1 flex-col min-w-0 overflow-hidden">
         <PortalHeader />
-        <main className="flex-1 overflow-y-auto px-8 py-6">
+        <main className="flex-1 overflow-y-auto px-4 py-4 pb-20 md:px-8 md:py-6 md:pb-6">
           {children}
         </main>
       </div>

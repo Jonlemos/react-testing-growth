@@ -41,7 +41,7 @@ export const PortalSidebar = () => {
         </span>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav aria-label="Navegação principal" className="flex-1 px-3 py-4 space-y-1">
         {navItems.map((item) => {
           const isActive = pathname === item.href
           return (
@@ -56,10 +56,10 @@ export const PortalSidebar = () => {
                       : "text-secondary-foreground/70 hover:bg-white/10 hover:text-secondary-foreground"
                   )}
                 >
-                  <item.icon size={18} strokeWidth={isActive ? 2.5 : 1.8} />
+                  <item.icon size={18} strokeWidth={isActive ? 2.5 : 1.8} aria-hidden="true" />
                   <span>{item.label}</span>
                   {isActive && (
-                    <ChevronRight size={14} className="ml-auto opacity-60" />
+                    <ChevronRight size={14} className="ml-auto opacity-60" aria-hidden="true" />
                   )}
                 </Link>
               </TooltipTrigger>
@@ -96,7 +96,7 @@ export const PortalSidebar = () => {
           disabled={isLoggingOut}
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-secondary-foreground/60 hover:bg-white/10 hover:text-secondary-foreground transition-all duration-150 disabled:opacity-50"
         >
-          <LogOut size={18} strokeWidth={1.8} />
+          <LogOut size={18} strokeWidth={1.8} aria-hidden="true" />
           <span>{isLoggingOut ? "Saindo..." : "Sair"}</span>
         </button>
       </div>

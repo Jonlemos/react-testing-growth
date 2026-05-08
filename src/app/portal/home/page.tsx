@@ -21,7 +21,6 @@ export default function PortalHomePage() {
         </p>
       </div>
 
-      {/* Cards de acesso rápido */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Card className="group hover:shadow-md hover:border-primary/40 transition-all duration-200 cursor-pointer">
           <Link href="/portal/offers" className="block">

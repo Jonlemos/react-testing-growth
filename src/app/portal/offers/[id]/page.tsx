@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useRef } from "react"
+import dynamic from "next/dynamic"
 import { useParams, useRouter } from "next/navigation"
 import { ArrowLeft, TrendingUp, Shield, Wallet, Lightbulb } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -7,8 +9,13 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Loading } from "@/components/shared/loading/loading"
-import { useOnlyOffer } from "@/feature/Offers/hooks/useOnlyOffer"
-import { SimulationFlow } from "@/feature/Offers/components/SimulationFlow"
+import { useOnlyOffer } from "@/feature/offers/hooks/useOnlyOffer"
+import { Analytics } from "@/lib/analytics"
+
+const SimulationFlow = dynamic(
+  () => import("@/feature/offers/components/SimulationFlow").then((m) => m.SimulationFlow),
+  { loading: () => <div className="flex justify-center py-8"><Loading /></div> }
+)
 
 const categoryConfig = {
   credito: { label: "Crédito", icon: Wallet },
@@ -20,6 +27,14 @@ export default function OfferDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
   const { data: offer, isLoading, isError } = useOnlyOffer(id)
+
+  const trackedRef = useRef(false)
+  useEffect(() => {
+    if (offer && !trackedRef.current) {
+      trackedRef.current = true
+      Analytics.offerDetailViewed(offer.id)
+    }
+  }, [offer])
 
   if (isLoading) return <div className="flex justify-center py-24"><Loading /></div>
 
@@ -82,8 +97,6 @@ export default function OfferDetailPage() {
           </div>
         </CardContent>
       </Card>
-
-      {/* Painel de simulação / fluxo em etapas */}
       {offer.flags.canSimulate ? (
         <Card>
           <CardHeader className="pb-3">

@@ -4,12 +4,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { AuthApi } from "../services/authApi";
 import { useAuthStore } from "../store/auth.store";
-import { clearAllSimulationDrafts } from "@/feature/Offers/store/simulation.store";
+import { clearAllSimulationDrafts } from "@/feature/offers/store/simulation.store";
 import type { LoginCredentials } from "../types";
 
-// O refresh token é transparente — gerenciado pelo proxy.ts.
-// O único caso que chega aqui como erro é quando o refreshToken também expirou
-// (code: 'AUTH_EXPIRED'), o que sinaliza fim de sessão e requer novo login.
+// The refresh token is transparent — managed by proxy.ts.
+// The only case that reaches here as an error is when the refreshToken also expired
+// (code: 'AUTH_EXPIRED'), which signals end of session and requires a new login.
 export const useAuth = () => {
   const queryClient = useQueryClient();
   const router = useRouter();

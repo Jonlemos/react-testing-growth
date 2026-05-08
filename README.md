@@ -29,8 +29,10 @@ graph TD
 ### Decisões de Arquitetura
 
 - **React 19 + Next.js 16 (App Router)**: Escolha baseada em performance (Server Components) e na robustez do novo padrão de Proxy para segurança.
+- **Hooks Modernos (React 19)**: Uso de `useTransition` para filtragem não bloqueante, `useOptimistic` para feedback imediato em contratações e `useDeferredValue` para grids responsivos.
 - **Next.js 16 Proxy Pattern**: Autenticação transparente via servidor. O `proxy.ts` gerencia o ciclo de vida do JWT (refresh automático) sem expor lógica de renovação ao cliente.
-- **Zustand + Persistência**: Gerenciamento de rascunhos de simulação. Implementado via _Factory Pattern_ para suportar múltiplos rascunhos isolados por oferta e por usuário.
+- **Zustand + Persistência**: Gerenciamento de rascunhos de simulação via _Factory Pattern_, com isolamento por oferta e usuário.
+- **Performance & Code-Splitting**: Implementação de `next/dynamic` para carregamento sob demanda de fluxos complexos (SimulationFlow), reduzindo o bundle inicial.
 - **TanStack Query v5**: Gestão eficiente de _Server State_, cache e sincronização.
 
 ## 🛠 Funcionalidades Entregues
@@ -45,15 +47,19 @@ graph TD
 
 ## 🔐 Estratégias de Qualidade
 
+- **Acessibilidade (a11y)**: Conformidade com WCAG 2.1 através de `aria-labels`, estados semânticos (`aria-pressed`, `aria-current`) e ícones decorativos ocultos (`aria-hidden`).
+- **Analytics de Funil**: Rastreamento centralizado (`analytics.ts`) de eventos críticos: visualização de oferta, aplicação de filtros e conclusão de contratação.
 - **Refresh Token Transparente**: Implementado no `proxy.ts` garantindo que a sessão seja renovada sem interrupções de UX.
-- **Feature Flags**: Lógica de segmentação (VAREJO, PRIVATE) integrada diretamente na visibilidade de CTAs e acesso a rotas.
-- **Estratégia de Testes**: Foco em testes unitários para Feature Flags e testes de integração para o fluxo de persistência (Simulation Store).
+- **Feature Flags**: Lógica de segmentação (VAREJO, PRIVATE, CORPORATE) integrada diretamente na visibilidade de CTAs e acesso a rotas.
+- **Suíte de Testes (Vitest + RTL)**: Cobertura de componentes críticos (LoginForm, OfferList, OfferCard), lógica de negócio (Feature Flags, Analytics) e persistência (Simulation Store).
 
 ## 🔧 Como Executar
 
 1.  `npm install`
 2.  Configurar `.env.local`: `JWT_SECRET=sua_chave`
 3.  `npm run dev`
+4.  `npm test` (Executar suíte de testes)
+5.  `npm run test:coverage` (Verificar cobertura)
 
 ---
 

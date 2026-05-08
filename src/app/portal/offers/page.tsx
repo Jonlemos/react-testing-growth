@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { OfferList } from "@/feature/Offers/components/OfferList"
+import { OfferList } from "@/feature/offers/components/OfferList"
 import { Loading } from "@/components/shared/loading/loading"
 
 export default function OffersPage() {

@@ -35,7 +35,7 @@ export const OfferCard = ({ offer }: { offer: Offer }) => {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className={cn("flex size-9 items-center justify-center rounded-lg bg-muted shrink-0", category.color)}>
-            <CategoryIcon size={18} strokeWidth={1.8} />
+            <CategoryIcon size={18} strokeWidth={1.8} aria-hidden="true" />
           </div>
 
           <div className="flex gap-1.5 flex-wrap justify-end">
@@ -91,7 +91,7 @@ export const OfferCard = ({ offer }: { offer: Offer }) => {
           <Link href={`/portal/offers/${offer.id}`} className="flex items-center justify-center gap-1.5">
             {isContinueSimulation ? 'Continuar simulação' : flagsCanContract ? 'Ver e contratar' : flagsCanSimulate ? "Simular" : "Indisponível"}
             {(flagsCanContract || flagsCanSimulate) && (
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             )}
           </Link>
         </Button>

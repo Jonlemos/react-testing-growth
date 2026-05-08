@@ -1,6 +1,6 @@
 'use client'
 
-import { useFeatureFlags } from "@/feature/Offers/hooks/useFeatureFlags"
+import { useFeatureFlags } from "@/feature/offers/hooks/useFeatureFlags"
 
 
 export function FeatureFlagsHydrator() {
